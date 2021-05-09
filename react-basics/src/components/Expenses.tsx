@@ -8,10 +8,10 @@ interface IExpense {
   amount: number;
 }
 
-function Expenses({ expenses }: { expenses: IExpense[]}) {
+function Expenses({ items }: { items: IExpense[]}) {
   return (
     <div className='expenses'>
-      {expenses.map((expense) => (
+      {items.map((expense) => (
         <ExpenseItem
           key={expense.id}
           title={expense.title}
