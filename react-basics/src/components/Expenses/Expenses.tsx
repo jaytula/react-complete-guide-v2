@@ -18,6 +18,22 @@ const Expenses = ({ items }: { items: IExpense[] }) => {
     setFilteredYear(selectedYear);
   };
 
+  const filteredExpenses = items.filter(
+    (item) => item.date.getFullYear().toString() === filteredYear
+  );
+
+  let expensesContent: JSX.Element | JSX.Element[] = <p>No expenses found</p>;
+  if (filteredExpenses.length) {
+    expensesContent = filteredExpenses.map((expense) => (
+      <ExpenseItem
+        key={expense.id}
+        title={expense.title}
+        date={expense.date}
+        amount={expense.amount}
+      />
+    ));
+  }
+
   return (
     <div>
       <Card className="expenses">
@@ -25,17 +41,8 @@ const Expenses = ({ items }: { items: IExpense[] }) => {
           year={filteredYear}
           onChangeFilter={filterChangeHandler}
         />
+        {expensesContent}
 
-        {items
-          .filter((item) => item.date.getFullYear().toString() === filteredYear)
-          .map((expense) => (
-            <ExpenseItem
-              key={expense.id}
-              title={expense.title}
-              date={expense.date}
-              amount={expense.amount}
-            />
-          ))}
       </Card>
     </div>
   );
