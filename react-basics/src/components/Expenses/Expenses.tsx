@@ -2,7 +2,7 @@ import ExpenseItem from "./ExpenseItem";
 import "./Expenses.css";
 import Card from "../UI/Card";
 import ExpensesFilter from "./ExpenseFilter";
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 
 interface IExpense {
   id: string;
@@ -12,16 +12,17 @@ interface IExpense {
 }
 
 const Expenses = ({ items }: { items: IExpense[] }) => {
-  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [filteredYear, setFilteredYear] = useState<string>("2021");
 
-  const changeYearHandler: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setSelectedYear(event.target.value);
+  const filterChangeHandler = (selectedYear: string) => {
+    setFilteredYear(selectedYear);
   };
 
   return (
     <div>
-      <ExpensesFilter year={selectedYear} onChangeYear={changeYearHandler} />
       <Card className="expenses">
+        <ExpensesFilter year={filteredYear} onChangeFilter={filterChangeHandler} />
+
         {items.map((expense) => (
           <ExpenseItem
             key={expense.id}
