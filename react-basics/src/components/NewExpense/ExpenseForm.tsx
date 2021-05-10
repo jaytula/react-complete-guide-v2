@@ -1,7 +1,17 @@
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+export interface IExpenseData {
+  title: string;
+  amount: string;
+  date: Date;
+}
+
+const ExpenseForm = ({
+  onSaveExpenseData,
+}: {
+  onSaveExpenseData: (data: IExpenseData) => void;
+}) => {
   const [enteredTitle, setEnteredTitle] = useState<string>("");
   const [enteredAmount, setEnteredAmount] = useState<string>("");
   const [enteredDate, setEnteredDate] = useState<string>("");
@@ -46,10 +56,11 @@ const ExpenseForm = () => {
       date: new Date(enteredDate),
     };
 
+    onSaveExpenseData(expenseData);
+
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
-    console.log(expenseData);
   };
   return (
     <form onSubmit={submitHandler}>
