@@ -2,40 +2,40 @@ import { ChangeEventHandler, useState } from "react";
 import "./ExpenseForm.css";
 
 const ExpenseForm = () => {
-  // const [enteredTitle, setEnteredTitle] = useState<string>("");
-  // const [enteredAmount, setEnteredAmount] = useState<string>("");
-  // const [enteredDate, setEnteredDate] = useState<string>("");
-  const [userInput, setUserInput] = useState<{
-    enteredTitle: string;
-    enteredAmount: string;
-    enteredDate: string;
-  }>({ enteredTitle: "", enteredAmount: "", enteredDate: "" });
+  const [enteredTitle, setEnteredTitle] = useState<string>("");
+  const [enteredAmount, setEnteredAmount] = useState<string>("");
+  const [enteredDate, setEnteredDate] = useState<string>("");
+  // const [userInput, setUserInput] = useState<{
+  //   enteredTitle: string;
+  //   enteredAmount: string;
+  //   enteredDate: string;
+  // }>({ enteredTitle: "", enteredAmount: "", enteredDate: "" });
 
   const titleChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
-    // setEnteredTitle(event.target.value);
-    setUserInput((prevState) => ({
-      ...prevState,
-      enteredTitle: event.target.value,
-    }));
+    setEnteredTitle(event.target.value);
+    // setUserInput((prevState) => ({
+    //   ...prevState,
+    //   enteredTitle: event.target.value,
+    // }));
   };
 
   const amountChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
-    // setEnteredAmount(event.target.value);
-    setUserInput((prevState) => ({
-      ...prevState,
-      enteredAmount: event.target.value,
-    }));
+    setEnteredAmount(event.target.value);
+    // setUserInput((prevState) => ({
+    //   ...prevState,
+    //   enteredAmount: event.target.value,
+    // }));
   };
 
   const dateChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
-    // setEnteredDate(event.target.value);
-    setUserInput((prevState) => ({
-      ...prevState,
-      enteredDate: event.target.value,
-    }));
+    setEnteredDate(event.target.value);
+    // setUserInput((prevState) => ({
+    //   ...prevState,
+    //   enteredDate: event.target.value,
+    // }));
   };
 
-  const { enteredTitle, enteredAmount, enteredDate } = userInput;
+  // const { enteredTitle, enteredAmount, enteredDate } = userInput;
 
   return (
     <form>
