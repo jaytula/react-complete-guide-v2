@@ -1,20 +1,23 @@
 import ExpenseDate from "./ExpenseDate";
 import "./ExpenseItem.css";
 import Card from "../UI/Card";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useState } from "react";
 
 const ExpenseItem = ({
   date,
-  title,
+  title: initialTitle,
   amount,
 }: {
   date: Date;
   title: string;
   amount: number;
 }) => {
+  const [title, setTitle] = useState(initialTitle);
+
   const clickHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
-    console.log('Clicked!');
-  }
+    setTitle("I am changed");
+  };
+
   return (
     <Card className="expense-item">
       <ExpenseDate date={date} />
