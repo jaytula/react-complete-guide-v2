@@ -1,6 +1,6 @@
 import ExpenseItem from "./ExpenseItem";
-import './Expenses.css';
-import Card from '../UI/Card'
+import "./Expenses.css";
+import Card from "../UI/Card";
 
 interface IExpense {
   id: string;
@@ -9,9 +9,9 @@ interface IExpense {
   amount: number;
 }
 
-function Expenses({ items }: { items: IExpense[]}) {
+const Expenses = ({ items }: { items: IExpense[] }) => {
   return (
-    <Card className='expenses'>
+    <Card className="expenses">
       {items.map((expense) => (
         <ExpenseItem
           key={expense.id}
@@ -22,6 +22,6 @@ function Expenses({ items }: { items: IExpense[]}) {
       ))}
     </Card>
   );
-}
+};
 
 export default Expenses;
