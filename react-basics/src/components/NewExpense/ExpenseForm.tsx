@@ -13,20 +13,29 @@ const ExpenseForm = () => {
 
   const titleChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     // setEnteredTitle(event.target.value);
-    setUserInput(prev => ({...prev, enteredTitle: event.target.value}))
+    setUserInput((prevState) => ({
+      ...prevState,
+      enteredTitle: event.target.value,
+    }));
   };
 
   const amountChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     // setEnteredAmount(event.target.value);
-    setUserInput(prev => ({...prev, enteredAmount: event.target.value}))
+    setUserInput((prevState) => ({
+      ...prevState,
+      enteredAmount: event.target.value,
+    }));
   };
 
   const dateChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     // setEnteredDate(event.target.value);
-    setUserInput(prev => ({...prev, enteredDate: event.target.value}))
+    setUserInput((prevState) => ({
+      ...prevState,
+      enteredDate: event.target.value,
+    }));
   };
 
-  const {enteredTitle, enteredAmount, enteredDate} = userInput;
+  const { enteredTitle, enteredAmount, enteredDate } = userInput;
 
   return (
     <form>
