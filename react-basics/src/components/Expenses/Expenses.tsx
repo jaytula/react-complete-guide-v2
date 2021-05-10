@@ -21,16 +21,21 @@ const Expenses = ({ items }: { items: IExpense[] }) => {
   return (
     <div>
       <Card className="expenses">
-        <ExpensesFilter year={filteredYear} onChangeFilter={filterChangeHandler} />
+        <ExpensesFilter
+          year={filteredYear}
+          onChangeFilter={filterChangeHandler}
+        />
 
-        {items.map((expense) => (
-          <ExpenseItem
-            key={expense.id}
-            title={expense.title}
-            date={expense.date}
-            amount={expense.amount}
-          />
-        ))}
+        {items
+          .filter((item) => item.date.getFullYear().toString() === filteredYear)
+          .map((expense) => (
+            <ExpenseItem
+              key={expense.id}
+              title={expense.title}
+              date={expense.date}
+              amount={expense.amount}
+            />
+          ))}
       </Card>
     </div>
   );
