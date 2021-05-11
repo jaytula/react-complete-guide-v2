@@ -9,8 +9,10 @@ export interface IExpenseData {
 
 const ExpenseForm = ({
   onSaveExpenseData,
+  onHideForm
 }: {
   onSaveExpenseData: (data: IExpenseData) => void;
+  onHideForm: () => void;
 }) => {
   const [enteredTitle, setEnteredTitle] = useState<string>("");
   const [enteredAmount, setEnteredAmount] = useState<string>("");
@@ -61,7 +63,9 @@ const ExpenseForm = ({
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
+    onHideForm();
   };
+  
   return (
     <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
@@ -95,6 +99,7 @@ const ExpenseForm = ({
         </div>
       </div>
       <div className="new-expense__actions">
+        <button onClick={onHideForm}>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
