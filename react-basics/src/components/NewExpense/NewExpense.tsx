@@ -7,7 +7,7 @@ const NewExpense = ({
 }: {
   onAddExpense: (expense: any) => void;
 }) => {
-  const [showForm, setShowForm] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const saveExpenseDataHandler = (enteredExpenseData: IExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
@@ -16,18 +16,18 @@ const NewExpense = ({
     onAddExpense(expenseData);
   };
 
-  const showFormHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
-    setShowForm(true);
+  const startEditingHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
+    setIsEditing(true);
   };
   return (
     <div className="new-expense">
-      {showForm && (
+      {isEditing && (
         <ExpenseForm
           onSaveExpenseData={saveExpenseDataHandler}
-          onHideForm={() => setShowForm(false)}
+          onCancel={() => setIsEditing(false)}
         />
       )}
-      {!showForm && <button onClick={showFormHandler}>Add New Expense</button>}
+      {!isEditing && <button onClick={startEditingHandler}>Add New Expense</button>}
     </div>
   );
 };
