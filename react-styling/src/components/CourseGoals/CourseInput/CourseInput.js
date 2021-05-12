@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 import Button from "../../UI/Button/Button";
 import "./CourseInput.css";
 
@@ -23,15 +24,17 @@ const CourseInput = (props) => {
     props.onAddGoal(enteredValue);
   };
 
+  const classes = ['form-control']
+
+  if(!isValid) {
+    classes.push('invalid');
+  }
+
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className="form-control">
-        <label style={{ color: !isValid ? "red" : "black" }}>Course Goal</label>
+      <div className={classes.join(' ')}>
+        <label>Course Goal</label>
         <input
-          style={{
-            borderColor: !isValid ? "red" : "#ccc",
-            backgroundColor: !isValid ? "salmon" : "transparent",
-          }}
           type="text"
           onChange={goalInputChangeHandler}
         />
