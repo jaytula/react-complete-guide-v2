@@ -3,7 +3,7 @@ import "./ExpenseForm.css";
 
 export interface IExpenseData {
   title: string;
-  amount: string;
+  amount: number;
   date: Date;
 }
 
@@ -54,7 +54,7 @@ const ExpenseForm = ({
 
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
