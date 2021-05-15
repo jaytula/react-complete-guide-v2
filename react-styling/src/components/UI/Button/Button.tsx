@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styles from "./Button.module.css";
 // import styled from "styled-components";
 
@@ -27,7 +28,13 @@ import styles from "./Button.module.css";
 //   }
 // `;
 
-const Button = ({children, ...props}) => {
+const Button = ({
+  children,
+  ...props
+}: DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>) => {
   return (
     <button {...props} className={styles.button}>
       {children}
