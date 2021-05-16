@@ -13,12 +13,13 @@ const App = () => {
   const addGoalHandler = (enteredText) => {
     setCourseGoals((prevGoals) => {
       const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: "goal1" });
+      updatedGoals.unshift({ text: enteredText, id: "goal1" });  // Logical error. Fixed 'id'
       return updatedGoals;
     });
   };
 
   const deleteItemHandler = (goalId) => {
+    console.log({goalId});
     setCourseGoals((prevGoals) => {
       const updatedGoals = prevGoals.filter((goal) => goal.id !== goalId);
       return updatedGoals;
