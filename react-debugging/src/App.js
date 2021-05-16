@@ -13,7 +13,9 @@ const App = () => {
   const addGoalHandler = (enteredText) => {
     setCourseGoals((prevGoals) => {
       const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: "goal1" });  // Logical error. Fixed 'id'
+      // updatedGoals.unshift({ text: enteredText, id: "goal1" });  // Logical error. Fixed 'id'
+      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
+
       return updatedGoals;
     });
   };
