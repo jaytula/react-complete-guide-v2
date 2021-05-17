@@ -1,4 +1,4 @@
-import { IUser } from "./AddUserForm";
+import { IUser } from "./Users/AddUser";
 import classes from "./UsersList.module.css";
 
 const UsersList = ({ users }: { users: IUser[] }) => {

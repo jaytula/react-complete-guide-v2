@@ -1,4 +1,4 @@
-import User, { IUser } from "./components/AddUserForm";
+import AddUser, { IUser } from "./components/Users/AddUser";
 import classes from "./App.module.css";
 import { useState } from "react";
 import UsersList from "./components/UsersList";
@@ -31,7 +31,7 @@ function App() {
   return (
     <div className={classes.app}>
       <Card>
-        <User onAddUser={addUserHandler} />
+        <AddUser onAddUser={addUserHandler} />
       </Card>
       <Card>
         <UsersList users={users} />
