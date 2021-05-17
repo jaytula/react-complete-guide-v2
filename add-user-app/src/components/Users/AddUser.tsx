@@ -1,6 +1,7 @@
 import { FormEventHandler, useState } from "react";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
+import ErrorModal from "../UI/ErrorModal";
 import classes from "./AddUser.module.css";
 
 export interface IUser {
@@ -27,25 +28,28 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
     setEnteredAge("");
   };
   return (
-    <Card className={classes.input}>
-      <form onSubmit={addUserHandler}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          value={enteredUsername}
-          onChange={(event) => setEnteredusername(event.target.value)}
-        />
-        <label htmlFor="age">Age (Years)</label>
-        <input
-          type="number"
-          id="age"
-          value={enteredAge}
-          onChange={(event) => setEnteredAge(event.target.value)}
-        />
-        <Button type="submit">Add User</Button>
-      </form>
-    </Card>
+    <div>
+      <ErrorModal title="An error occurred!" message="Something went wrong!" />
+      <Card className={classes.input}>
+        <form onSubmit={addUserHandler}>  
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={enteredUsername}
+            onChange={(event) => setEnteredusername(event.target.value)}
+          />
+          <label htmlFor="age">Age (Years)</label>
+          <input
+            type="number"
+            id="age"
+            value={enteredAge}
+            onChange={(event) => setEnteredAge(event.target.value)}
+          />
+          <Button type="submit">Add User</Button>
+        </form>
+      </Card>
+    </div>
   );
 };
 

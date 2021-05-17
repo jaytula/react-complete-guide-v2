@@ -2,7 +2,7 @@ import AddUser, { IUser } from "./components/Users/AddUser";
 import classes from "./App.module.css";
 import { useState } from "react";
 import UsersList from "./components/Users/UsersList";
-import ErrorModal, { IModalData } from "./components/ErrorModal";
+import ErrorModal, { IModalData } from "./components/UI/ErrorModal";
 
 function App() {
   const [usersList, setUsersList] = useState<IUser[]>([]);
@@ -34,9 +34,6 @@ function App() {
     <div className={classes.app}>
       <AddUser onAddUser={addUserHandler} />
       <UsersList users={usersList} />
-      {modal !== null ? (
-        <ErrorModal modalData={modal} hideModal={() => setModal(null)} />
-      ) : null}
     </div>
   );
 }
