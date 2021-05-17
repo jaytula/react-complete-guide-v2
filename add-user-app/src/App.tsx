@@ -5,7 +5,7 @@ import UsersList from "./components/Users/UsersList";
 import ErrorModal, { IModalData } from "./components/ErrorModal";
 
 function App() {
-  const [users, setUsers] = useState<IUser[]>([]);
+  const [usersList, setUsersList] = useState<IUser[]>([]);
   const [modal, setModal] = useState<IModalData | null>(null);
 
   const addUserHandler = (user: IUser) => {
@@ -24,13 +24,16 @@ function App() {
       });
       return;
     }
-    setUsers((prevUsers) => [...prevUsers, user]);
+    setUsersList((prevUsersList) => [
+      ...prevUsersList,
+      { ...user, id: Math.random().toString() },
+    ]);
   };
 
   return (
     <div className={classes.app}>
       <AddUser onAddUser={addUserHandler} />
-      <UsersList users={users} />
+      <UsersList users={usersList} />
       {modal !== null ? (
         <ErrorModal modalData={modal} hideModal={() => setModal(null)} />
       ) : null}

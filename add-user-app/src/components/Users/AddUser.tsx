@@ -4,6 +4,7 @@ import Card from "../UI/Card";
 import classes from "./AddUser.module.css";
 
 export interface IUser {
+  id?: string;
   name: string;
   age: string;
 }
