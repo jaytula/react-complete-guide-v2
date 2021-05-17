@@ -14,6 +14,13 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
 
   const addUserHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0 ) {
+      return;
+    }
+
+    if (+enteredAge < 1) {
+      return;
+    }
     onAddUser({ name: enteredUsername, age: enteredAge });
     setEnteredusername("");
     setEnteredAge("");
