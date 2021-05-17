@@ -1,9 +1,10 @@
-import { IUser } from "./Users/AddUser";
+import { IUser } from "./AddUser";
+import Card from "../UI/Card";
 import classes from "./UsersList.module.css";
 
 const UsersList = ({ users }: { users: IUser[] }) => {
   return (
-    <div className={classes.usersList}>
+    <Card className={classes.users}>
       <ul>
         {users.map((user) => (
           <li key={user.name}>
@@ -11,7 +12,7 @@ const UsersList = ({ users }: { users: IUser[] }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </Card>
   );
 };
 

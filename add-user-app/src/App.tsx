@@ -1,8 +1,7 @@
 import AddUser, { IUser } from "./components/Users/AddUser";
 import classes from "./App.module.css";
 import { useState } from "react";
-import UsersList from "./components/UsersList";
-import Card from "./components/UI/Card";
+import UsersList from "./components/Users/UsersList";
 import ErrorModal, { IModalData } from "./components/ErrorModal";
 
 function App() {
@@ -31,9 +30,7 @@ function App() {
   return (
     <div className={classes.app}>
       <AddUser onAddUser={addUserHandler} />
-      <Card>
-        <UsersList users={users} />
-      </Card>
+      <UsersList users={users} />
       {modal !== null ? (
         <ErrorModal modalData={modal} hideModal={() => setModal(null)} />
       ) : null}
