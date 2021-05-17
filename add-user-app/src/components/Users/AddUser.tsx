@@ -1,4 +1,5 @@
 import { FormEventHandler, useState } from "react";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
 import classes from "./AddUser.module.css";
 
@@ -34,7 +35,7 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
           value={age}
           onChange={(event) => setAge(event.target.value)}
         />
-        <button type="submit">Add User</button>
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );
