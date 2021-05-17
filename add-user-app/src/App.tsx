@@ -2,7 +2,7 @@ import AddUser, { IUser } from "./components/Users/AddUser";
 import classes from "./App.module.css";
 import { useState } from "react";
 import UsersList from "./components/UsersList";
-import Card from "./components/Card";
+import Card from "./components/UI/Card";
 import ErrorModal, { IModalData } from "./components/ErrorModal";
 
 function App() {
@@ -30,9 +30,7 @@ function App() {
 
   return (
     <div className={classes.app}>
-      <Card>
-        <AddUser onAddUser={addUserHandler} />
-      </Card>
+      <AddUser onAddUser={addUserHandler} />
       <Card>
         <UsersList users={users} />
       </Card>
