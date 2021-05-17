@@ -9,14 +9,14 @@ export interface IUser {
 }
 
 const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
-  const [username, setUsername] = useState<string>("");
-  const [age, setAge] = useState<string>("");
+  const [enteredUsername, setEnteredusername] = useState<string>("");
+  const [enteredAge, setEnteredAge] = useState<string>("");
 
   const addUserHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onAddUser({ name: username, age: age });
-    setUsername("");
-    setAge("");
+    onAddUser({ name: enteredUsername, age: enteredAge });
+    setEnteredusername("");
+    setEnteredAge("");
   };
   return (
     <Card className={classes.input}>
@@ -25,15 +25,15 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
         <input
           type="text"
           id="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          value={enteredUsername}
+          onChange={(event) => setEnteredusername(event.target.value)}
         />
         <label htmlFor="age">Age (Years)</label>
         <input
           type="number"
           id="age"
-          value={age}
-          onChange={(event) => setAge(event.target.value)}
+          value={enteredAge}
+          onChange={(event) => setEnteredAge(event.target.value)}
         />
         <Button type="submit">Add User</Button>
       </form>
