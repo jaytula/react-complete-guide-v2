@@ -10,17 +10,25 @@ export interface IUser {
   age: string;
 }
 
+interface IModalData {
+  title: string;
+  message: string;
+}
+
 const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
   const [enteredUsername, setEnteredusername] = useState<string>("");
   const [enteredAge, setEnteredAge] = useState<string>("");
+  const [error, setError] = useState<IModalData | null>(null)
 
   const addUserHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0 ) {
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({title: 'Invalid Input', message: 'Username or Age is empty'})
       return;
     }
 
     if (+enteredAge < 1) {
+      setError({title: 'Invalid Input', message: 'Age must be greater than 0'})
       return;
     }
     onAddUser({ name: enteredUsername, age: enteredAge });
@@ -29,9 +37,9 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
   };
   return (
     <div>
-      <ErrorModal title="An error occurred!" message="Something went wrong!" />
+      {error && <ErrorModal title={error.title} message={error.message} onClose={() => setError(null)} />}
       <Card className={classes.input}>
-        <form onSubmit={addUserHandler}>  
+        <form onSubmit={addUserHandler}>
           <label htmlFor="username">Username</label>
           <input
             type="text"

@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import Button from "./Button";
 import Card from "./Card";
 import classes from "./ErrorModal.module.css";
@@ -11,19 +10,17 @@ export interface IModalData {
 const ErrorModal = ({
   title,
   message,
-  hideModal = () => {},
+  onClose
 }: {
   title: string;
   message: string;
-  hideModal?: () => void;
+  onClose: () => void;
 }) => {
-  const clickHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
-    hideModal();
-  };
+
 
   return (
     <div>
-      <div className={classes.backdrop} />
+      <div className={classes.backdrop} onClick={onClose} />
       <Card className={classes.modal}>
         <header className={classes.header}>
           <h2>{title}</h2>
@@ -32,7 +29,7 @@ const ErrorModal = ({
           <p>{message}</p>
         </div>
         <footer className={classes.actions}>
-          <Button>Okay</Button>
+          <Button onClick={onClose}>Okay</Button>
         </footer>
       </Card>
     </div>
