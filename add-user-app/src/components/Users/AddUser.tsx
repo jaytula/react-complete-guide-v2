@@ -1,4 +1,5 @@
 import { FormEventHandler, useState } from "react";
+import Wrapper from "../Helpers/Wrapper";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import ErrorModal from "../UI/ErrorModal";
@@ -36,7 +37,7 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
     setEnteredAge("");
   };
   return (
-    <div>
+    <Wrapper>
       {error && <ErrorModal title={error.title} message={error.message} onClose={() => setError(null)} />}
       <Card className={classes.input}>
         <form onSubmit={addUserHandler}>
@@ -57,7 +58,7 @@ const AddUser = ({ onAddUser }: { onAddUser: (user: IUser) => void }) => {
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
