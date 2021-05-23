@@ -1,4 +1,10 @@
-import React, { ChangeEventHandler, FocusEventHandler, FormEventHandler, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  FocusEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -15,22 +21,23 @@ const Login = ({
   const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
 
+  useEffect(() => {
+    setFormIsValid(
+      enteredEmail.includes("@") &&
+        enteredPassword.trim().length > 6 &&
+        enteredPassword.trim().length > 6 &&
+        enteredEmail.includes("@")
+    );
+  }, [enteredEmail, enteredPassword]);
+
   const emailChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     setEnteredEmail(event.target.value);
-
-    setFormIsValid(
-      event.target.value.includes("@") && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler: ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     setEnteredPassword(event.target.value);
-
-    setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes("@")
-    );
   };
 
   const validateEmailHandler: FocusEventHandler<HTMLInputElement> = () => {
