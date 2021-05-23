@@ -22,12 +22,17 @@ const Login = ({
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes("@") &&
-        enteredPassword.trim().length > 6 &&
-        enteredPassword.trim().length > 6 &&
-        enteredEmail.includes("@")
-    );
+    const timeout = setTimeout(() => {
+      console.log('checkout form validity');
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      console.log(`clearingTimeout ${timeout}`)
+      clearTimeout(timeout);
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
