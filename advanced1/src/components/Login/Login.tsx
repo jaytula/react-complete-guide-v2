@@ -53,11 +53,14 @@ const Login = ({
     isValid: false,
   });
 
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       console.log("checkout form validity");
       setFormIsValid(
-        emailState.value.includes("@") && passwordState.value.trim().length > 6
+        emailIsValid && passwordIsValid
       );
     }, 500);
 
@@ -65,7 +68,7 @@ const Login = ({
       console.log(`clearingTimeout ${timeout}`);
       clearTimeout(timeout);
     };
-  }, [emailState, passwordState]);
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
