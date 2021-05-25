@@ -24,16 +24,31 @@ const emailReducer = (
   return state;
 };
 
+const passwordReducer = (
+  state: { value: string; isValid: boolean },
+  action: { type: "USER_INPUT" | "INPUT_BLUR"; val?: string }
+) => {
+  if (action.type === "USER_INPUT" && typeof action.val === "string") {
+    return { value: action.val, isValid: action.val.trim().length > 7 };
+  }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().length > 7 };
+  }
+  return state;
+};
+
 const Login = ({
   onLogin,
 }: {
   onLogin: (email: string, password: string) => void;
 }) => {
-  const [enteredPassword, setEnteredPassword] = useState<string>("");
-  const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
-
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: "",
+    isValid: false,
+  });
+
+  const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
     value: "",
     isValid: false,
   });
@@ -42,7 +57,7 @@ const Login = ({
     const timeout = setTimeout(() => {
       console.log("checkout form validity");
       setFormIsValid(
-        emailState.value.includes("@") && enteredPassword.trim().length > 6
+        emailState.value.includes("@") && passwordState.value.trim().length > 6
       );
     }, 500);
 
@@ -50,7 +65,7 @@ const Login = ({
       console.log(`clearingTimeout ${timeout}`);
       clearTimeout(timeout);
     };
-  }, [emailState, enteredPassword]);
+  }, [emailState, passwordState]);
 
   const emailChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
@@ -59,7 +74,7 @@ const Login = ({
   const passwordChangeHandler: ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    setEnteredPassword(event.target.value);
+    dispatchPassword({ type: "USER_INPUT", val: event.target.value });
   };
 
   const validateEmailHandler: FocusEventHandler<HTMLInputElement> = () => {
@@ -67,12 +82,12 @@ const Login = ({
   };
 
   const validatePasswordHandler: FocusEventHandler<HTMLInputElement> = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
+    dispatchPassword({ type: "INPUT_BLUR" });
   };
 
   const submitHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onLogin(emailState.value, enteredPassword);
+    onLogin(emailState.value, passwordState.value);
   };
 
   return (
@@ -94,14 +109,14 @@ const Login = ({
         </div>
         <div
           className={`${classes.control} ${
-            passwordIsValid === false ? classes.invalid : ""
+            passwordState.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
-            value={enteredPassword}
+            value={passwordState.value}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
