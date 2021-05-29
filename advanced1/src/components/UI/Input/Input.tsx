@@ -1,7 +1,30 @@
-import { InputHTMLAttributes } from "react";
-import classes from './Input.module.css';
+import {
+  forwardRef,
+  InputHTMLAttributes,
+  useImperativeHandle,
+  useRef,
+} from "react";
+import classes from "./Input.module.css";
 
-const MyInput = (props: InputHTMLAttributes<HTMLInputElement> & {isValid: boolean, label: string}) => {
+const MyInput = forwardRef((
+  props: InputHTMLAttributes<HTMLInputElement> & {
+    isValid: boolean;
+    label: string;
+  },
+  ref
+) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const activate = () => {
+    if (inputRef.current) inputRef.current.focus();
+  };
+
+  useImperativeHandle(ref, () => {
+    return {
+      focus: activate,
+    };
+  });
+
   return (
     <div
       className={`${classes.control} ${
@@ -9,9 +32,9 @@ const MyInput = (props: InputHTMLAttributes<HTMLInputElement> & {isValid: boolea
       }`}
     >
       <label htmlFor={props.id}>{props.label}</label>
-      <input {...props} />
+      <input {...props} ref={inputRef} />
     </div>
   );
-};
+});
 
 export default MyInput;

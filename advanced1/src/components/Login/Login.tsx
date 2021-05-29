@@ -5,6 +5,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
+  useRef,
   useState,
 } from "react";
 
@@ -56,6 +57,9 @@ const Login = () => {
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
 
+  const emailInputRef = useRef<{focus: () => void}>(null);
+  const passwordInputRef = useRef<{focus: () => void}>(null);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       console.log("checkout form validity");
@@ -88,7 +92,13 @@ const Login = () => {
 
   const submitHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onLogin(emailState.value, passwordState.value);
+    if (formIsValid) {
+      onLogin(emailState.value, passwordState.value);
+    } else if (!emailIsValid) {
+      emailInputRef.current?.focus();
+    } else {
+      passwordInputRef.current?.focus();
+    }
   };
 
   return (
@@ -102,6 +112,7 @@ const Login = () => {
           isValid={emailIsValid}
           onChange={emailChangeHandler}
           onBlur={validateEmailHandler}
+          ref={emailInputRef}
         />
         <Input
           id="password"
@@ -111,9 +122,10 @@ const Login = () => {
           isValid={passwordIsValid}
           onChange={passwordChangeHandler}
           onBlur={validatePasswordHandler}
+          ref={passwordInputRef}
         />
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
