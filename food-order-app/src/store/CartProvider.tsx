@@ -25,14 +25,14 @@ const cartReducer = (
   state: ICartState,
   action: ICartActionAdd | ICartActionRemove
 ) => {
+  let updatedItems: ICartItem[];
+
   if (action.type === "ADD") {
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
     const existingIndex = state.items.findIndex(
       (item) => item.id === action.item.id
     );
-
-    let updatedItems: ICartItem[];
 
     if (existingIndex === -1) {
       updatedItems = state.items.concat(action.item as ICartItem);
@@ -48,6 +48,21 @@ const cartReducer = (
   }
 
   if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+
+    updatedItems = [...state.items];
+    const updatedItem = { ...state.items[existingCartItemIndex] };
+    updatedItem.amount -= 1;
+    if (updatedItem.amount === 0) {
+      updatedItems.splice(existingCartItemIndex, 1);
+    } else {
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    const updatedTotalAmount = state.totalAmount - updatedItem.price;
+    return { items: updatedItems, totalAmount: updatedTotalAmount };
   }
 
   return state;
@@ -67,6 +82,7 @@ export const CartProvider = (props: { children: ReactNode }) => {
   const removeItemFromCartHandler = (id: string) => {
     // setItems((prev) => prev.filter((item) => item.id !== id));
     dispatchCartAction({ type: "REMOVE", id: id });
+    console.log('here');
   };
 
   const value = {
