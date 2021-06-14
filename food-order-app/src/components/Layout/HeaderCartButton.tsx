@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, useContext } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, useContext, useEffect, useState } from "react";
 import CartContext from "../../store/cart-context";
 import CartIcon from "./CartIcon";
 import classes from "./HeaderCartButton.module.css";
@@ -10,13 +10,31 @@ const HeaderCartButton = (
   >
 ) => {
   const cartCtx = useContext(CartContext);
+  const [btnIsBumped, setBtnIsBumped] = useState<boolean>(false);
 
-  const numberOfCartItems = cartCtx.items.reduce((acc, curr) => acc + curr.amount, 0)
+  const {items} = cartCtx
+
+  const numberOfCartItems = items.reduce((acc, curr) => acc + curr.amount, 0)
+
+  useEffect(() => {
+    if(items.length === 0) return;
+
+    setBtnIsBumped(true);
+    const timer = setTimeout(() => {
+      setBtnIsBumped(false);
+    }, 300)
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [items])
+
+  const btnClasses = [classes.button, props.className || '', btnIsBumped ? classes.bump : ''];
 
   return (
     <button
       {...props}
-      className={[props.className || "", classes.button].join(" ")}
+      className={btnClasses.join(" ")}
     >
       <span className={classes.icon}>
         <CartIcon />
