@@ -1,7 +1,16 @@
-import classes from './User.module.css';
+import React from "react";
+import classes from "./User.module.css";
 
-const User = (props: {name: string}) => {
-  return <li className={classes.user}>{props.name}</li>;
+type MyProps = {
+  name: string;
 };
+
+type MyState = {};
+
+class User extends React.Component<MyProps, MyState> {
+  render() {
+    return <li className={classes.user}>{this.props.name}</li>;
+  }
+}
 
 export default User;
