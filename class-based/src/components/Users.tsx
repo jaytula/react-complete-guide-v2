@@ -3,13 +3,13 @@ import User from "./User";
 
 import classes from "./Users.module.css";
 
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
-
-interface MyProps {}
+interface IUser {
+  id: string;
+  name: string;
+}
+interface MyProps {
+  users: IUser[]
+}
 
 interface MyState {
   showUsers: boolean;
@@ -34,7 +34,7 @@ class Users extends Component<MyProps, MyState> {
     const { showUsers } = this.state;
     const usersList = (
       <ul>
-        {DUMMY_USERS.map((user) => (
+        {this.props.users.map((user) => (
           <User key={user.id} name={user.name} />
         ))}
       </ul>
