@@ -1,25 +1,26 @@
 import { ChangeEvent } from "react";
 import { Component } from "react";
 import { Fragment } from "react";
+import UsersContext from "../store/users-context";
 
 import classes from "./UserFinder.module.css";
 
 import Users from "./Users";
 
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
-
 interface MyProps {}
 
+interface IUser {
+  id: string;
+  name: string;
+}
 interface MyState {
-  filteredUsers: { id: string; name: string }[];
+  filteredUsers: IUser[];
   searchTerm: string;
 }
 
 class UserFinder extends Component<MyProps, MyState> {
+  static contextType = UsersContext;
+
   constructor(props: MyProps, state: MyState) {
     super(props, state);
     this.state = {
@@ -29,12 +30,13 @@ class UserFinder extends Component<MyProps, MyState> {
   }
 
   componentDidMount() {
-    this.setState({filteredUsers: DUMMY_USERS})
+    console.log({ctx: this.context});
+    this.setState({ filteredUsers: this.context.users });
   }
   componentDidUpdate(_: MyProps, prevState: MyState) {
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.setState({
-        filteredUsers: DUMMY_USERS.filter((user) =>
+        filteredUsers: this.context.users.filter((user: IUser) =>
           user.name.includes(this.state.searchTerm)
         ),
       });
