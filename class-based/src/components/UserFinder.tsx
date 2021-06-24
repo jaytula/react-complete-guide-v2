@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 import { Component } from "react";
 import { Fragment } from "react";
 import UsersContext from "../store/users-context";
+import ErrorBoundary from "./ErrorBoundary";
 
 import classes from "./UserFinder.module.css";
 
@@ -30,7 +31,7 @@ class UserFinder extends Component<MyProps, MyState> {
   }
 
   componentDidMount() {
-    console.log({ctx: this.context});
+    console.log({ ctx: this.context });
     this.setState({ filteredUsers: this.context.users });
   }
   componentDidUpdate(_: MyProps, prevState: MyState) {
@@ -58,7 +59,9 @@ class UserFinder extends Component<MyProps, MyState> {
           type="search"
           onChange={this.searchChangeHandler.bind(this)}
         />
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundary>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundary>
       </Fragment>
     );
   }
