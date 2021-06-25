@@ -1,8 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import classes from './Movie.module.css';
+import classes from "./Movie.module.css";
 
-const Movie = (props) => {
+const Movie = (props: {
+  title: string;
+  releaseDate: string;
+  openingText: string;
+}) => {
   return (
     <li className={classes.movie}>
       <h2>{props.title}</h2>
