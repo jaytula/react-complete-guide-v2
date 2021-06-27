@@ -6,8 +6,10 @@ import { IMovie } from "./models";
 
 function App() {
   const [movies, setMovies] = useState<IMovie[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function fetchMoviesHandler() {
+    setIsLoading(true);
     const response = await fetch("https://swapi.dev/api/films");
     const data: {
       results: {
@@ -25,6 +27,8 @@ function App() {
       releaseDate: item.release_date,
     }));
     setMovies(fetchedMovies);
+    setIsLoading(false);
+
   }
 
   return (
@@ -33,7 +37,9 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {!isLoading && movies.length > 0 &&  <MoviesList movies={movies} />}
+        {!isLoading && movies.length === 0 && <p>Found no movies.</p>}
+        {isLoading && <p>Loading...</p>}
       </section>
     </React.Fragment>
   );
