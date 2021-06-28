@@ -7,40 +7,55 @@ import { IMovie } from "./models";
 function App() {
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
   async function fetchMoviesHandler() {
     setIsLoading(true);
-    const response = await fetch("https://swapi.dev/api/films");
-    const data: {
-      results: {
-        episode_id: number;
-        title: string;
-        openingCrawl: string;
-        release_date: string;
-      }[];
-    } = await response.json();
+    setError(null);
+    try {
+      const response = await fetch("https://swapi.dev/api/films");
+      if (!response.ok) throw new Error("Something went wrong!");
+      const data: {
+        results: {
+          episode_id: number;
+          title: string;
+          openingCrawl: string;
+          release_date: string;
+        }[];
+      } = await response.json();
 
-    const fetchedMovies = data.results.map(item => ({
-      id: item.episode_id,
-      title: item.title,
-      openingText: item.openingCrawl,
-      releaseDate: item.release_date,
-    }));
-    setMovies(fetchedMovies);
+      const fetchedMovies = data.results.map(item => ({
+        id: item.episode_id,
+        title: item.title,
+        openingText: item.openingCrawl,
+        releaseDate: item.release_date,
+      }));
+      setMovies(fetchedMovies);
+    } catch (err) {
+      setError(err.message);
+    }
     setIsLoading(false);
-
   }
 
+  let content: JSX.Element = <p>Found no moviews.</p>;
+
+  if (movies.length > 0) {
+    content = <MoviesList movies={movies} />;
+  }
+
+  if (error) {
+    content = <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
   return (
     <React.Fragment>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        {!isLoading && movies.length > 0 &&  <MoviesList movies={movies} />}
-        {!isLoading && movies.length === 0 && <p>Found no movies.</p>}
-        {isLoading && <p>Loading...</p>}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
