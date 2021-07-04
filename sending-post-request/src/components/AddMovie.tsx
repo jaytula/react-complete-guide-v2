@@ -3,6 +3,7 @@ import React, { FormEvent, useRef } from "react";
 import classes from "./AddMovie.module.css";
 
 export interface IMovie {
+  id?: number;
   title: string;
   openingText: string;
   releaseDate: string;

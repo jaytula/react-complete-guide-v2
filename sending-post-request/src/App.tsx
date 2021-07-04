@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
-import AddMovie from './components/AddMovie';
+import AddMovie, { IMovie } from './components/AddMovie';
 import './App.css';
 
+interface IMovieAPIData {
+  episode_id: number;
+  title: string;
+  opening_crawl: string;
+  release_date: string;
+}
+
 function App() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +25,7 @@ function App() {
         throw new Error('Something went wrong!');
       }
 
-      const data = await response.json();
+      const data = await response.json() as {results: IMovieAPIData[]};
 
       const transformedMovies = data.results.map((movieData) => {
         return {
@@ -39,7 +46,7 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  function addMovieHandler(movie) {
+  function addMovieHandler(movie: IMovie) {
     console.log(movie);
   }
 
