@@ -5,7 +5,7 @@ import AddMovie, { IMovie } from './components/AddMovie';
 import './App.css';
 
 interface IMovieAPIData {
-  episode_id: number;
+  episode_id: string;
   title: string;
   opening_crawl: string;
   release_date: string;
@@ -25,11 +25,12 @@ function App() {
         throw new Error('Something went wrong!');
       }
 
-      const data = await response.json() as {results: IMovieAPIData[]};
+      const data = await response.json() as {[episodeId: string]: IMovieAPIData};
+      console.log(data);
 
-      const transformedMovies = data.results.map((movieData) => {
+      const transformedMovies = Object.entries(data).map(([key, movieData]) => {
         return {
-          id: movieData.episode_id,
+          id: key,
           title: movieData.title,
           openingText: movieData.opening_crawl,
           releaseDate: movieData.release_date,
@@ -46,8 +47,16 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  function addMovieHandler(movie: IMovie) {
-    console.log(movie);
+  async function addMovieHandler(movie: IMovie) {
+    const response = await fetch(`${process.env.REACT_APP_FIREBASE_BACKEND}/movies.json`, {
+      method: 'POST',
+      body: JSON.stringify(movie),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
   }
 
   let content = <p>Found no movies.</p>;
