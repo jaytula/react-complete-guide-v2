@@ -13,7 +13,7 @@ const useCounter = (countDown: boolean = false) => {
     return () => clearInterval(counterId);
   }, [incrementValue]);
 
-  return { counter };
+  return counter;
 };
 
 export default useCounter;
