@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Tasks from './components/Tasks/Tasks';
 import NewTask, { ITask } from './components/NewTask/NewTask';
 
+export const FIREBASE_URL = process.env.REACT_APP_FIREBASE_BACKEND as string;
+
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +15,7 @@ function App() {
     setError(null);
     try {
       const response = await fetch(
-        'https://react-http-6b4a6.firebaseio.com/tasks.json'
+        `${FIREBASE_URL}/tasks.json`
       );
 
       if (!response.ok) {
