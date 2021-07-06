@@ -1,8 +1,9 @@
+import { ITask } from '../NewTask/NewTask';
 import Section from '../UI/Section';
 import TaskItem from './TaskItem';
 import classes from './Tasks.module.css';
 
-const Tasks = (props) => {
+const Tasks = (props: {items: ITask[], loading: boolean, error: string | null, onFetch: () => void}) => {
   let taskList = <h2>No tasks found. Start adding some!</h2>;
 
   if (props.items.length > 0) {
@@ -22,7 +23,7 @@ const Tasks = (props) => {
   }
 
   if (props.loading) {
-    content = 'Loading tasks...';
+    content = <p>'Loading tasks...'</p>;
   }
 
   return (

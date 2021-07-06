@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
 import classes from './TaskItem.module.css';
 
-const TaskItem = (props) => {
+const TaskItem = (props: {children: ReactNode}) => {
   return <li className={classes.task}>{props.children}</li>
 };
 

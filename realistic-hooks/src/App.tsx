@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
-import NewTask from './components/NewTask/NewTask';
+import NewTask, { ITask } from './components/NewTask/NewTask';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [tasks, setTasks] = useState<ITask[]>([]);
 
-  const fetchTasks = async (taskText) => {
+  const fetchTasks = async (taskText: string = '') => {
     setIsLoading(true);
     setError(null);
     try {
@@ -39,7 +39,7 @@ function App() {
     fetchTasks();
   }, []);
 
-  const taskAddHandler = (task) => {
+  const taskAddHandler = (task: ITask) => {
     setTasks((prevTasks) => prevTasks.concat(task));
   };
 
