@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { ITask } from "../components/NewTask/NewTask";
 
 const useHttp = (requestConfig: {
   url: string;
-  method: string;
-  headers: any;
-  body: any;
+  method?: string;
+  headers?: any;
+  body?: any;
 }, applyData: (data: any) => void) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,15 +14,15 @@ const useHttp = (requestConfig: {
     setError(null);
     try {
       const response = await fetch(requestConfig.url, {
-        method: requestConfig.method,
-        headers: requestConfig.headers,
-        body: JSON.stringify(requestConfig.body),
+        method: requestConfig.method || 'GET',
+        headers: requestConfig.headers || {},
+        body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
       });
 
       if (!response.ok) {
         throw new Error("Request failed!");
       }
-            
+
       const data = await response.json();
       applyData(data);
 

@@ -8,22 +8,25 @@ export const FIREBASE_URL = process.env.REACT_APP_FIREBASE_BACKEND as string;
 
 function App() {
   const [tasks, setTasks] = useState<ITask[]>([]);
-  const { error, isLoading, sendRequest } = useHttp(
+
+  const transformTasks = (data: any) => {
+    const loadedTasks = [];
+
+    for (const taskKey in data) {
+      loadedTasks.push({ id: taskKey, text: data[taskKey].text });
+    }
+
+    setTasks(loadedTasks);
+  };
+
+  const { error, isLoading, sendRequest: fetchTasks } = useHttp(
     {
       url: `${FIREBASE_URL}/tasks.json`,
       method: "GET",
       headers: { "Content-Type": "application/json" },
       body: null,
     },
-    (data) => {
-      const loadedTasks = [];
-
-      for (const taskKey in data) {
-        loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-      }
-
-      setTasks(loadedTasks);
-    }
+    transformTasks
   );
 
   // const fetchTasks = async (taskText: string = '') => {
@@ -54,8 +57,8 @@ function App() {
   // };
 
   useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+    fetchTasks();
+  }, []);
 
   const taskAddHandler = (task: ITask) => {
     setTasks((prevTasks) => prevTasks.concat(task));
@@ -68,7 +71,7 @@ function App() {
         items={tasks}
         loading={isLoading}
         error={error}
-        onFetch={sendRequest}
+        onFetch={fetchTasks}
       />
     </React.Fragment>
   );
