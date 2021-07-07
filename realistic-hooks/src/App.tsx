@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Tasks from "./components/Tasks/Tasks";
 import NewTask, { ITask } from "./components/NewTask/NewTask";
 import useHttp from "./hooks/use-http";
+import { useMemo } from "react";
 
 export const FIREBASE_URL = process.env.REACT_APP_FIREBASE_BACKEND as string;
 
@@ -19,46 +20,18 @@ function App() {
     setTasks(loadedTasks);
   };
 
-  const { error, isLoading, sendRequest: fetchTasks } = useHttp(
-    {
+  const requestConfig = useMemo(
+    () => ({
       url: `${FIREBASE_URL}/tasks.json`,
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      body: null,
-    },
-    transformTasks
+    }),
+    []
   );
 
-  // const fetchTasks = async (taskText: string = '') => {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await fetch(
-  //       `${FIREBASE_URL}/tasks.json`
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error('Request failed!');
-  //     }
-
-  //     const data = await response.json();
-
-  //     const loadedTasks = [];
-
-  //     for (const taskKey in data) {
-  //       loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-  //     }
-
-  //     setTasks(loadedTasks);
-  //   } catch (err) {
-  //     setError(err.message || 'Something went wrong!');
-  //   }
-  //   setIsLoading(false);
-  // };
+  const { error, isLoading, sendRequest: fetchTasks } = useHttp();
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetchTasks(requestConfig, transformTasks);
+  }, [fetchTasks, requestConfig]);
 
   const taskAddHandler = (task: ITask) => {
     setTasks((prevTasks) => prevTasks.concat(task));
@@ -71,7 +44,7 @@ function App() {
         items={tasks}
         loading={isLoading}
         error={error}
-        onFetch={fetchTasks}
+        onFetch={() => fetchTasks(requestConfig, transformTasks)}
       />
     </React.Fragment>
   );
