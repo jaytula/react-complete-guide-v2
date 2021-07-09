@@ -1,4 +1,4 @@
-const SimpleInput = (props) => {
+const SimpleInput = () => {
   return (
     <form>
       <div className='form-control'>
