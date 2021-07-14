@@ -1,3 +1,4 @@
+import { FocusEventHandler } from "react";
 import {
   FormEventHandler,
   ChangeEventHandler,
@@ -47,6 +48,15 @@ const SimpleInput = () => {
     ? "form-control invalid"
     : "form-control";
 
+  const nameInputBlurHandler: FocusEventHandler<HTMLInputElement> = event => {
+    setEnteredNameTouched(true);
+
+    if (enteredName.trim() === "") {
+      setEnteredNameIsValid(false);
+      return;
+    }
+  }
+
   return (
     <form onSubmit={formSubmissionHandler}>
       <div className={nameInputClasses}>
@@ -56,6 +66,7 @@ const SimpleInput = () => {
           id="name"
           value={enteredName}
           onChange={nameInputChangeHandler}
+          onBlur={nameInputBlurHandler}
           ref={nameInputRef}
         />
         {nameInputIsInvalid && (
