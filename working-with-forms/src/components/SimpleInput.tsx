@@ -3,59 +3,41 @@ import {
   FormEventHandler,
   ChangeEventHandler,
   useState,
-  useRef,
-  useEffect,
 } from "react";
 
 const SimpleInput = () => {
-  const nameInputRef = useRef<HTMLInputElement>(null);
   const [enteredName, setEnteredName] = useState<string>("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState<boolean>(false);
   const [enteredNameTouched, setEnteredNameTouched] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      console.log("Name input is valid!");
-    }
-  }, [enteredNameIsValid]);
-  const nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setEnteredName(event.target.value);
-  };
+  const enteredNameIsValid =enteredName.trim() !== '';
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
 
   const formSubmissionHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
+    if(enteredName.trim() === '') {
       return;
     }
-    setEnteredNameIsValid(true);
-
-    console.log(enteredName);
-    const enteredValue = nameInputRef.current?.value;
-    console.log(enteredValue);
-
-    // nameInputRef?.current?.value = ''; // Bad: directly manipulating the DOM
     setEnteredName("");
+    setEnteredNameTouched(false);
   };
 
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
-  const nameInputClasses = nameInputIsInvalid
-    ? "form-control invalid"
-    : "form-control";
+
+
+    const nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (
+      event
+    ) => {
+      setEnteredName(event.target.value);
+    };
 
   const nameInputBlurHandler: FocusEventHandler<HTMLInputElement> = event => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
-      return;
-    }
   }
+
+  const nameInputClasses = nameInputIsInvalid
+    ? "form-control invalid"
+    : "form-control";
 
   return (
     <form onSubmit={formSubmissionHandler}>
@@ -67,7 +49,6 @@ const SimpleInput = () => {
           value={enteredName}
           onChange={nameInputChangeHandler}
           onBlur={nameInputBlurHandler}
-          ref={nameInputRef}
         />
         {nameInputIsInvalid && (
           <p className="error-text">Name must not be empty.</p>
