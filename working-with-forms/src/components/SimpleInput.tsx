@@ -4,9 +4,23 @@ import { FormEventHandler, ChangeEventHandler, useState } from "react";
 const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState<string>("");
   const [enteredNameTouched, setEnteredNameTouched] = useState<boolean>(false);
+  // const [formIsValid, setFormIsValid] = useState<boolean>(false);
 
   const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+  let formIsValid = false;
+  if(enteredNameIsValid) {
+    formIsValid = true;
+  }
+
+  // useEffect(() => {
+  //   if(enteredNameIsValid) {
+  //     setFormIsValid(true);
+  //   } else {
+  //     setFormIsValid(false);
+  //   }
+  // }, [enteredNameIsValid])
 
   const formSubmissionHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -49,7 +63,7 @@ const SimpleInput = () => {
       </div>
 
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
