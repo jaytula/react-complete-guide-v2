@@ -1,39 +1,32 @@
 import { FocusEventHandler } from "react";
-import {
-  FormEventHandler,
-  ChangeEventHandler,
-  useState,
-} from "react";
+import { FormEventHandler, ChangeEventHandler, useState } from "react";
 
 const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState<string>("");
   const [enteredNameTouched, setEnteredNameTouched] = useState<boolean>(false);
 
-  const enteredNameIsValid =enteredName.trim() !== '';
+  const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
-
 
   const formSubmissionHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setEnteredNameTouched(true);
-    if(enteredName.trim() === '') {
+    if (enteredName.trim() === "") {
       return;
     }
     setEnteredName("");
     setEnteredNameTouched(false);
   };
 
+  const nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    setEnteredName(event.target.value);
+  };
 
-
-    const nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (
-      event
-    ) => {
-      setEnteredName(event.target.value);
-    };
-
-  const nameInputBlurHandler: FocusEventHandler<HTMLInputElement> = event => {
+  const nameInputBlurHandler: FocusEventHandler<HTMLInputElement> = (event) => {
     setEnteredNameTouched(true);
-  }
+  };
 
   const nameInputClasses = nameInputIsInvalid
     ? "form-control invalid"
