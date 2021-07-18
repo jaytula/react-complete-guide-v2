@@ -83,7 +83,7 @@ const SimpleInput = () => {
       <div className={emailInputClasses}>
         <label htmlFor="email">Your email</label>
         <input
-          type="text"
+          type="email"
           id="email"
           value={enteredEmail}
           onChange={emailInputChangeHandler}
