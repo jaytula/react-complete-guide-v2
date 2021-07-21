@@ -16,7 +16,6 @@ const useInput = (
 
   const inputChangeHandler: ChangeEventHandler<HTMLInputElement> = event => {
     setValue(event.target.value);
-    setTouched(true);
   };
 
   const inputBlurHandler: FocusEventHandler<HTMLInputElement> = event => {
