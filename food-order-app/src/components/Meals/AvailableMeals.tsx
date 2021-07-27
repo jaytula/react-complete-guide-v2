@@ -12,24 +12,36 @@ export interface IMealItem {
 
 const AvailableMeals = () => {
   const [meals, setMeals] = useState<IMealItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_FIREBASE_BACKEND}/meals.json`)
-      .then((res) => res.json())
-      .then(
-        (data: {
-          [key: string]: { name: string; description: string; price: number };
-        }) => {
-          const fetchedMeals = Object.entries(data).map(([key, value]) => ({
-            id: key,
-            ...value
-          }))
-          setMeals(fetchedMeals);
-        }
+    const fetchMeals = async () => {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_FIREBASE_BACKEND}/meals.json`
       );
+      const data = (await response.json()) as {
+        [key: string]: { name: string; description: string; price: number };
+      };
+      const fetchedMeals = Object.entries(data).map(([key, value]) => ({
+        id: key,
+        ...value,
+      }));
+      setMeals(fetchedMeals);
+      setIsLoading(false);
+    };
+
+    fetchMeals();
   }, []);
 
-  const mealsList = meals.map((meal) => <MealItem key={meal.id} item={meal} />);
+  if (isLoading)
+    return (
+      <section className={classes.MealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+
+  const mealsList = meals.map(meal => <MealItem key={meal.id} item={meal} />);
 
   return (
     <section className={classes.meals}>

@@ -3,6 +3,7 @@ import Cart from "./components/Cart/Cart";
 import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
 import { CartProvider } from "./store/CartProvider";
+import './App.css';
 
 function App() {
   const [cartIsShown, setCartIsShown] = useState<boolean>(false);
