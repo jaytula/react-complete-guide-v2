@@ -27,3 +27,8 @@
   text-align: center;
   color: white;
 }
+
+.MealsError {
+  color: red;
+  text-align: center;
+}

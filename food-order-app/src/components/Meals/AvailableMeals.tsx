@@ -13,6 +13,7 @@ export interface IMealItem {
 const AvailableMeals = () => {
   const [meals, setMeals] = useState<IMealItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [httpError, setHttpError] = useState<string>("");
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -20,6 +21,10 @@ const AvailableMeals = () => {
       const response = await fetch(
         `${process.env.REACT_APP_FIREBASE_BACKEND}/meals.json`
       );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
       const data = (await response.json()) as {
         [key: string]: { name: string; description: string; price: number };
       };
@@ -28,10 +33,14 @@ const AvailableMeals = () => {
         ...value,
       }));
       setMeals(fetchedMeals);
+
       setIsLoading(false);
     };
 
-    fetchMeals();
+    fetchMeals().catch(error => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
 
   if (isLoading)
@@ -41,7 +50,15 @@ const AvailableMeals = () => {
       </section>
     );
 
-  const mealsList = meals.map(meal => <MealItem key={meal.id} item={meal} />);
+  if (!isLoading && httpError) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{httpError}</p>
+      </section>
+    );
+  }
+
+  const mealsList = meals.map((meal) => <MealItem key={meal.id} item={meal} />);
 
   return (
     <section className={classes.meals}>
