@@ -35,6 +35,25 @@ const Cart = (props: { onClose: () => void }) => {
     </ul>
   );
 
+  const submitOrderHandler = (userData: {
+    name: string;
+    street: string;
+    city: string;
+    postalCode: string;
+  }) => {
+    fetch(`${process.env.REACT_APP_FIREBASE_BACKEND}/orders.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user: userData, orderedItems: cartCtx.items }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   const orderHandler = () => {
     setIsCheckout(true);
   };
@@ -59,7 +78,9 @@ const Cart = (props: { onClose: () => void }) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {isCheckout && (
+        <Checkout onCancel={props.onClose} onConfirm={submitOrderHandler} />
+      )}
       {!isCheckout && modalActions}
     </Modal>
   );

@@ -4,7 +4,18 @@ import classes from "./Checkout.module.css";
 const isEmpty = (s: string) => s.trim() === "" || !s;
 const isNotFiveChars = (s: string) => s.trim().length !== 5;
 
-const Checkout = ({ onCancel }: { onCancel: () => void }) => {
+const Checkout = ({
+  onCancel,
+  onConfirm,
+}: {
+  onCancel: () => void;
+  onConfirm: (userData: {
+    name: string;
+    street: string;
+    city: string;
+    postalCode: string;
+  }) => void;
+}) => {
   const [formInputsValidity, setFormInputsValidity] = useState<{
     name: boolean;
     street: boolean;
@@ -22,7 +33,7 @@ const Checkout = ({ onCancel }: { onCancel: () => void }) => {
   const postalCodeInputRef = useRef<HTMLInputElement>(null);
   const cityInputRef = useRef<HTMLInputElement>(null);
 
-  const confirmHandler: FormEventHandler<HTMLFormElement> = event => {
+  const confirmHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     const enteredName = nameInputRef?.current?.value as string;
@@ -51,11 +62,12 @@ const Checkout = ({ onCancel }: { onCancel: () => void }) => {
     if (!formIsValid) {
       return;
     }
-    console.log({
-      enteredName,
-      enteredStreet,
-      enteredPostalCode,
-      enteredCity,
+
+    onConfirm({
+      name: enteredName,
+      street: enteredStreet,
+      city: enteredCity,
+      postalCode: enteredPostalCode,
     });
   };
 
