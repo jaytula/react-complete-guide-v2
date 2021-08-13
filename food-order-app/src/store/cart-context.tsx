@@ -12,11 +12,13 @@ const CartContext = createContext<{
   totalAmount: number;
   addItem: (cartItem: ICartItem) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
 }>({
   items: [],
   totalAmount: 0,
   addItem: () => {},
   removeItem: () => {},
+  clearCart: () => {},
 });
 
 export default CartContext;

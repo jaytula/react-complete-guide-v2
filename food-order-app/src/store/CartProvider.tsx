@@ -16,6 +16,10 @@ interface ICartActionRemove {
   id: string;
 }
 
+interface ICartActionClear {
+  type: "CLEAR"
+}
+
 const defaultCartState: ICartState = {
   items: [],
   totalAmount: 0,
@@ -23,7 +27,7 @@ const defaultCartState: ICartState = {
 
 const cartReducer = (
   state: ICartState,
-  action: ICartActionAdd | ICartActionRemove
+  action: ICartActionAdd | ICartActionRemove | ICartActionClear
 ) => {
   let updatedItems: ICartItem[];
 
@@ -65,6 +69,10 @@ const cartReducer = (
     return { items: updatedItems, totalAmount: updatedTotalAmount };
   }
 
+  if(action.type === "CLEAR") {
+    return defaultCartState;
+  }
+
   return state;
 };
 
@@ -85,11 +93,16 @@ export const CartProvider = (props: { children: ReactNode }) => {
     console.log('here');
   };
 
+  const clearCartHandler = () => {
+    dispatchCartAction({type: "CLEAR"})
+  }
+
   const value = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart: clearCartHandler,
   };
 
   return (
