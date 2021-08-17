@@ -1,0 +1,19 @@
+{
+  "name": "explore-redux-concepts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.6.1",
+    "@types/redux": "^3.6.0",
+    "redux": "^4.1.1",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  }
+}
