@@ -1,9 +1,11 @@
-import Counter from './components/Counter';
-
+import Counter from "./components/Counter";
+import { StoreProvider } from "./store";
 
 function App() {
   return (
-    <Counter />
+    <StoreProvider>
+      <Counter />
+    </StoreProvider>
   );
 }
 
