@@ -1,5 +1,9 @@
 import { createStore } from "redux";
 
+export interface IRootState {
+  counter: string;
+}
+
 const initialState = { counter: 0 };
 
 const counterReducer = (
