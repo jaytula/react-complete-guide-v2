@@ -11,11 +11,15 @@ const Counter = () => {
   const toggleCounterHandler = () => {};
 
   const incrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch({ type: "INCREMENT" });
+    dispatch({ type: "INCREMENT"});
   };
 
+  const incrementByFiveHandler: MouseEventHandler<HTMLButtonElement> = () => {
+    dispatch({type: 'INCREMENT', amount: 5})
+  }
+
   const decrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch({ type: "DECREMENT" });
+    dispatch({ type: "DECREMENT"});
   };
 
   return (
@@ -24,6 +28,7 @@ const Counter = () => {
       <div className={classes.value}>{counter}</div>
       <div>
         <button onClick={incrementHandler}>Increment</button>
+        <button onClick={incrementByFiveHandler}>Increase by 5</button>
         <button onClick={decrementHandler}>Decrement</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
