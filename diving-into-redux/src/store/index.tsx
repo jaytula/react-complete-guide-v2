@@ -2,19 +2,23 @@ import { createStore } from "redux";
 
 export interface IRootState {
   counter: string;
+  showCounter: boolean;
 }
 
-const initialState = { counter: 0};
+const initialState = { counter: 0, showCounter: true};
 
 const counterReducer = (
   state = initialState,
-  action: { type: "INCREMENT" | "DECREMENT", amount: 1 }
+  action: { type: "INCREMENT" | "DECREMENT" | "TOGGLE", amount: 1 }
 ) => {
   if (action.type === "INCREMENT") {
-    return { counter: state.counter + (action?.amount || 1) };
+    return { ...state, counter: state.counter + (action?.amount || 1) };
   }
   if (action.type === "DECREMENT") {
-    return { counter: state.counter - (action?.amount || 1) };
+    return { ...state, counter: state.counter - (action?.amount || 1) };
+  }
+  if (action.type === "TOGGLE") {
+    return { ...state, showCounter: !state.showCounter}
   }
 
   return state;
