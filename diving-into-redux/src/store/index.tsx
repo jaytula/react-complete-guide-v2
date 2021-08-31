@@ -1,4 +1,5 @@
 import { createStore } from "redux";
+import {createSlice  } from '@reduxjs/toolkit';
 
 export interface IRootState {
   counter: string;
@@ -6,6 +7,22 @@ export interface IRootState {
 }
 
 const initialState = { counter: 0, showCounter: true};
+
+createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment(state, action) {
+      state.counter += action.payload;
+    },
+    decrement(state, action) {
+      state.counter -= action.payload;
+    },
+    toggleCounter(state) {
+      state.showCounter = !state.showCounter;
+    },
+  }
+})
 
 const counterReducer = (
   state = initialState,
