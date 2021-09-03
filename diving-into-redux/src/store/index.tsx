@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import {createSlice  } from '@reduxjs/toolkit';
+import {createSlice, configureStore  } from '@reduxjs/toolkit';
 
 export interface IRootState {
   counter: string;
@@ -8,7 +8,7 @@ export interface IRootState {
 
 const initialState = { counter: 0, showCounter: true};
 
-createSlice({
+const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
@@ -24,23 +24,8 @@ createSlice({
   }
 })
 
-const counterReducer = (
-  state = initialState,
-  action: { type: "INCREMENT" | "DECREMENT" | "TOGGLE", amount: 1 }
-) => {
-  if (action.type === "INCREMENT") {
-    return { ...state, counter: state.counter + (action?.amount || 1) };
-  }
-  if (action.type === "DECREMENT") {
-    return { ...state, counter: state.counter - (action?.amount || 1) };
-  }
-  if (action.type === "TOGGLE") {
-    return { ...state, showCounter: !state.showCounter}
-  }
-
-  return state;
-};
-
-const store = createStore(counterReducer);
+const store = configureStore({
+  reducer: counterSlice.reducer
+})
 
 export default store;
