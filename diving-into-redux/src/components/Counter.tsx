@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { MouseEventHandler } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { counterActions, IRootState } from "../store";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
@@ -10,19 +10,19 @@ const Counter = () => {
   const dispatch = useDispatch();
 
   const toggleCounterHandler = () => {
-    dispatch({ type: 'TOGGLE' })
+    dispatch(counterActions.toggleCounter())
   };
 
   const incrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch({ type: "INCREMENT"});
+    dispatch(counterActions.increment());
   };
 
   const incrementByFiveHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch({type: 'INCREMENT', amount: 5})
+    dispatch(counterActions.increment(5))
   }
 
   const decrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch({ type: "DECREMENT"});
+    dispatch(counterActions.decrement())
   };
 
   return (
