@@ -1,6 +1,7 @@
 import { MouseEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions, RootState } from "../store";
+import { RootState } from "../store";
+import { authActions } from "../store/auth";
 import classes from "./Header.module.css";
 
 const Header = () => {

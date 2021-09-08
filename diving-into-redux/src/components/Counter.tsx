@@ -1,7 +1,8 @@
 import { Component } from "react";
 import { MouseEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { counterActions, RootState } from "../store";
+import { RootState } from "../store";
+import { counterActions } from "../store/counter";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
