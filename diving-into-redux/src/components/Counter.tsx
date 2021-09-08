@@ -1,16 +1,20 @@
 import { Component } from "react";
 import { MouseEventHandler } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { counterActions, IRootState } from "../store";
+import { counterActions, RootState } from "../store";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
-  const counter = useSelector<IRootState, string>((state) => state.counter);
-  const showCounter = useSelector<IRootState, boolean>((state) => state.showCounter);
+  const counter = useSelector<RootState, number>(
+    (state) => state.counter.counter
+  );
+  const showCounter = useSelector<RootState, boolean>(
+    (state) => state.counter.showCounter
+  );
   const dispatch = useDispatch();
 
   const toggleCounterHandler = () => {
-    dispatch(counterActions.toggleCounter())
+    dispatch(counterActions.toggleCounter());
   };
 
   const incrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
@@ -18,11 +22,11 @@ const Counter = () => {
   };
 
   const incrementByFiveHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(counterActions.increment(5))
-  }
+    dispatch(counterActions.increment(5));
+  };
 
   const decrementHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(counterActions.decrement())
+    dispatch(counterActions.decrement());
   };
 
   return (
@@ -49,16 +53,14 @@ interface Props {
 
 class CounterClass extends Component<Props> {
   incrementHandler() {
-    this.props.increment()
+    this.props.increment();
   }
 
   decrementHandler() {
-    this.props.decrement()
+    this.props.decrement();
   }
 
-  toggleCounterHandler() {
-
-  }
+  toggleCounterHandler() {}
 
   render() {
     return (
@@ -73,18 +75,15 @@ class CounterClass extends Component<Props> {
       </main>
     );
   }
+}
 
-} 
+const mapStateToProps = (state: { counter: number }) => ({
+  counter: state.counter,
+});
 
-const mapStateToProps = (state: {counter: number}) => ({
-  counter: state.counter
-})
-
-const mapDispatchToProps = (dispatch: (action: {type: string}) => void) => ({
-  increment: () => dispatch({type: 'INCREMENT'}),
-  decrement: () => dispatch({type: 'DECREMENT'})
-})
+const mapDispatchToProps = (dispatch: (action: { type: string }) => void) => ({
+  increment: () => dispatch({ type: "INCREMENT" }),
+  decrement: () => dispatch({ type: "DECREMENT" }),
+});
 
 // export default connect(mapStateToProps, mapDispatchToProps)(CounterClass);
-
-
