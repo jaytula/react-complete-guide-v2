@@ -1,9 +1,21 @@
+import { MouseEventHandler } from "react";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../store";
 import classes from "./CartItem.module.css";
 
 const CartItem = (props: {
   item: { title: string; quantity: number; total: number; price: number };
 }) => {
   const { title, quantity, total, price } = props.item;
+  const dispatch = useDispatch();
+
+  const addHandler: MouseEventHandler = event => {
+    dispatch(cartActions.add({title, quantity: 1, price}))
+  }
+
+  const removeHandler: MouseEventHandler = event => {
+    dispatch(cartActions.remove({title}))
+  }
 
   return (
     <li className={classes.item}>
@@ -19,8 +31,8 @@ const CartItem = (props: {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
-          <button>+</button>
+          <button onClick={removeHandler}>-</button>
+          <button onClick={addHandler}>+</button>
         </div>
       </div>
     </li>

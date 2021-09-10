@@ -1,8 +1,16 @@
+import { MouseEventHandler } from 'react';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store';
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
 
 const ProductItem = (props: {title: string, price: number, description: string}) => {
   const { title, price, description } = props;
+  const dispatch = useDispatch();
+
+  const addHandler: MouseEventHandler<HTMLButtonElement> = event => {
+    dispatch(cartActions.add({title, quantity: 1, price}))
+  }
 
   return (
     <li className={classes.item}>
@@ -13,7 +21,7 @@ const ProductItem = (props: {title: string, price: number, description: string})
         </header>
         <p>{description}</p>
         <div className={classes.actions}>
-          <button>Add to Cart</button>
+          <button onClick={addHandler}>Add to Cart</button>
         </div>
       </Card>
     </li>
