@@ -1,20 +1,20 @@
 import { MouseEventHandler } from "react";
 import { useDispatch } from "react-redux";
-import { cartActions } from "../../store";
+import { cartActions } from "../../store/cart-slice";
 import classes from "./CartItem.module.css";
 
 const CartItem = (props: {
-  item: { title: string; quantity: number; total: number; price: number };
+  item: { id: number, title: string; quantity: number; total: number; price: number };
 }) => {
-  const { title, quantity, total, price } = props.item;
+  const { id, title, quantity, total, price } = props.item;
   const dispatch = useDispatch();
 
   const addHandler: MouseEventHandler = event => {
-    dispatch(cartActions.add({title, quantity: 1, price}))
+    dispatch(cartActions.add({id, title, quantity: 1, price}))
   }
 
   const removeHandler: MouseEventHandler = event => {
-    dispatch(cartActions.remove({title}))
+    dispatch(cartActions.remove({id}))
   }
 
   return (

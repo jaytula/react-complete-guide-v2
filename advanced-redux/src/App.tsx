@@ -5,7 +5,7 @@ import Products from './components/Shop/Products';
 import { RootState } from './store';
 
 function App() {
-  const showCart = useSelector<RootState, boolean>(state => state.app.showCart)
+  const showCart = useSelector<RootState, boolean>(state => state.ui.showCart)
   return (
     <Layout>
       {showCart && <Cart />}
