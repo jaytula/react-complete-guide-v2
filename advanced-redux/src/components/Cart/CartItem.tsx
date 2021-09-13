@@ -10,7 +10,7 @@ const CartItem = (props: {
   const dispatch = useDispatch();
 
   const addHandler: MouseEventHandler = event => {
-    dispatch(cartActions.add({id, title, quantity: 1, price}))
+    dispatch(cartActions.add({id, title, price}))
   }
 
   const removeHandler: MouseEventHandler = event => {

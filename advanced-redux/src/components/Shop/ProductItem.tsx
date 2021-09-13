@@ -9,7 +9,7 @@ const ProductItem = (props: {id: string, title: string, price: number, descripti
   const dispatch = useDispatch();
 
   const addHandler: MouseEventHandler<HTMLButtonElement> = event => {
-    dispatch(cartActions.add({id, title, quantity: 1, price}))
+    dispatch(cartActions.add({id, title, price}))
   }
 
   return (
