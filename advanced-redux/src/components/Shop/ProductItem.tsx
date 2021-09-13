@@ -1,16 +1,21 @@
-import { MouseEventHandler } from 'react';
-import { useDispatch } from 'react-redux';
-import { cartActions } from '../../store/cart-slice';
-import Card from '../UI/Card';
-import classes from './ProductItem.module.css';
+import { MouseEventHandler } from "react";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../store/cart-slice";
+import Card from "../UI/Card";
+import classes from "./ProductItem.module.css";
 
-const ProductItem = (props: {id: string, title: string, price: number, description: string}) => {
+const ProductItem = (props: {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+}) => {
   const { id, title, price, description } = props;
   const dispatch = useDispatch();
 
   const addHandler: MouseEventHandler<HTMLButtonElement> = event => {
-    dispatch(cartActions.add({id, title, price}))
-  }
+    dispatch(cartActions.add({ id, title, price }));
+  };
 
   return (
     <li className={classes.item}>
