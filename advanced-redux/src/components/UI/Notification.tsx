@@ -3,7 +3,7 @@ import classes from "./Notification.module.css";
 const Notification = (props: {
   title: string;
   message: string;
-  status: "error" | "success";
+  status: "error" | "success" | "pending"
 }) => {
   let specialClasses = "";
 
