@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppDispatch } from ".";
+import { FIREBASE_BACKEND } from "../globals";
+import { uiActions } from "./ui-slice";
 
 export interface Item {
   id: string;
@@ -8,7 +11,15 @@ export interface Item {
   price: number;
 }
 
-const cartInitialState = { items: [], totalQuantity: 0 } as { items: Item[], totalQuantity: number };
+export interface ICart {
+  items: Item[];
+  totalQuantity: number;
+}
+
+const cartInitialState = { items: [], totalQuantity: 0 } as {
+  items: Item[];
+  totalQuantity: number;
+};
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -16,7 +27,7 @@ export const cartSlice = createSlice({
   reducers: {
     add(
       state,
-      action: PayloadAction<{ id: string, title: string; price: number }>
+      action: PayloadAction<{ id: string; title: string; price: number }>
     ) {
       const existingIndex = state.items.findIndex(
         (el) => el.id === action.payload.id
@@ -42,9 +53,7 @@ export const cartSlice = createSlice({
       );
       if (existingIndex === -1) return;
       if (state.items[existingIndex].quantity === 1) {
-        state.items = state.items.filter(
-          (el) => el.id !== action.payload.id
-        );
+        state.items = state.items.filter((el) => el.id !== action.payload.id);
       } else {
         state.items[existingIndex].quantity -= 1;
         state.items[existingIndex].total =
@@ -55,5 +64,50 @@ export const cartSlice = createSlice({
     },
   },
 });
+
+export const sendCartData = (cart: ICart) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(
+      uiActions.showNotification({
+        status: "pending",
+        title: "Sending...",
+        message: "Sending cart data!",
+      })
+    );
+
+    const sendRequest = async () => {
+      const response = await fetch(`${FIREBASE_BACKEND}cart.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cart),
+      });
+
+      if (!response.ok) {
+        throw new Error("Sending cart data failed.");
+      }
+    };
+
+    try {
+      await sendRequest();
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Sent cart data successfully",
+        })
+      );
+    } catch (error) {
+      dispatch(
+        uiActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending cart data failed!",
+        })
+      );
+    }
+  };
+};
 
 export const cartActions = cartSlice.actions;
