@@ -1,7 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppDispatch } from ".";
-import { FIREBASE_BACKEND } from "../globals";
-import { uiActions } from "./ui-slice";
 
 export interface Item {
   id: string;
@@ -25,6 +22,10 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: cartInitialState,
   reducers: {
+    replaceCart(state, action: PayloadAction<ICart>) {
+      state.totalQuantity = action.payload.totalQuantity;
+      state.items = action.payload.items;
+    },
     add(
       state,
       action: PayloadAction<{ id: string; title: string; price: number }>
@@ -65,49 +66,8 @@ export const cartSlice = createSlice({
   },
 });
 
-export const sendCartData = (cart: ICart) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(
-      uiActions.showNotification({
-        status: "pending",
-        title: "Sending...",
-        message: "Sending cart data!",
-      })
-    );
 
-    const sendRequest = async () => {
-      const response = await fetch(`${FIREBASE_BACKEND}cart.json`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cart),
-      });
 
-      if (!response.ok) {
-        throw new Error("Sending cart data failed.");
-      }
-    };
 
-    try {
-      await sendRequest();
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success!",
-          message: "Sent cart data successfully",
-        })
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "Sending cart data failed!",
-        })
-      );
-    }
-  };
-};
 
 export const cartActions = cartSlice.actions;
