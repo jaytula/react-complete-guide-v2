@@ -19,7 +19,10 @@ export const sendCartData = (cart: ICart) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(cart),
+        body: JSON.stringify({
+          items: cart.items,
+          totalQuantity: cart.totalQuantity
+        }),
       });
 
       if (!response.ok) {
@@ -63,7 +66,11 @@ export const fetchCartData = () => {
 
     try {
       const cartData = await fetchData() as ICart;
-      dispatch(cartActions.replaceCart(cartData))
+      dispatch(cartActions.replaceCart({
+        items: cartData.items || [],
+        totalQuantity: cartData.totalQuantity || 0,
+        changed: false
+      }))
     } catch (error) {
       dispatch(
         uiActions.showNotification({

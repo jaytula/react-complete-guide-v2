@@ -11,12 +11,10 @@ export interface Item {
 export interface ICart {
   items: Item[];
   totalQuantity: number;
+  changed: boolean;
 }
 
-const cartInitialState = { items: [], totalQuantity: 0 } as {
-  items: Item[];
-  totalQuantity: number;
-};
+const cartInitialState = { items: [], totalQuantity: 0, changed: false } as ICart;
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -47,6 +45,7 @@ export const cartSlice = createSlice({
           state.items[existingIndex].quantity * action.payload.price;
       }
       state.totalQuantity += 1;
+      state.changed = true;
     },
     remove(state, action: PayloadAction<{ id: string }>) {
       const existingIndex = state.items.findIndex(
@@ -62,6 +61,8 @@ export const cartSlice = createSlice({
           state.items[existingIndex].price;
       }
       state.totalQuantity -= 1;
+      state.changed = true;
+
     },
   },
 });
