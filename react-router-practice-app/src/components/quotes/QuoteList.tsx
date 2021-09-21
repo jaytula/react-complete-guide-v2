@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
+import { IQuote } from '../../model';
 
 import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
-const QuoteList = (props) => {
+const QuoteList = (props: {quotes: IQuote[]}) => {
   return (
     <Fragment>
       <ul className={classes.list}>

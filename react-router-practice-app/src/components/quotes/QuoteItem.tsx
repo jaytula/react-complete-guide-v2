@@ -1,6 +1,6 @@
 import classes from './QuoteItem.module.css';
 
-const QuoteItem = (props) => {
+const QuoteItem = (props: {id: string, text: string, author: string}) => {
   return (
     <li className={classes.item}>
       <figure>

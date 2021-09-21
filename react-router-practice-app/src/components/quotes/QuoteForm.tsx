@@ -1,19 +1,20 @@
-import { useRef } from 'react';
+import { FormEventHandler, useRef } from 'react';
 
-import Card from '../ui/Card';
-import LoadingSpinner from '../ui/LoadingSpinner';
+import Card from '../UI/Card';
+import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 
-const QuoteForm = (props) => {
-  const authorInputRef = useRef();
-  const textInputRef = useRef();
+const QuoteForm = (props: {onAddQuote: (data: {author:string, text: string}) => void, isLoading: boolean}) => {
+  const authorInputRef = useRef<HTMLInputElement>(null);
+  const textInputRef = useRef<HTMLTextAreaElement>(null);
 
-  function submitFormHandler(event) {
+  const submitFormHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    const enteredAuthor = authorInputRef.current.value;
-    const enteredText = textInputRef.current.value;
+    const enteredAuthor = authorInputRef.current?.value;
+    const enteredText = textInputRef.current?.value;
 
+    if(typeof enteredAuthor !== 'string' || typeof enteredText !== 'string') return;
     // optional: Could validate here
 
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
@@ -34,7 +35,7 @@ const QuoteForm = (props) => {
         </div>
         <div className={classes.control}>
           <label htmlFor='text'>Text</label>
-          <textarea id='text' rows='5' ref={textInputRef}></textarea>
+          <textarea id='text' rows={5} ref={textInputRef}></textarea>
         </div>
         <div className={classes.actions}>
           <button className='btn'>Add Quote</button>
